@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- 导入约束 -->
+   <!DOCTYPE struts PUBLIC
+	"-//Apache Software Foundation//DTD Struts Configuration 2.3//EN"
+	"http://struts.apache.org/dtds/struts-2.3.dtd">
+
+<struts>
+	<constant name="struts.ui.theme" value="simple"></constant>
+	
+	<constant name="struts.multipart.maxSize" value="209715200"></constant>
+
+	<!-- 这是用户模块 -->
+	<package name="user" extends="struts-default" namespace="/">
+		<action name="user_*" class="userAction" method="{1}">
+			<result name="login_success" type="redirect">/index.jsp</result>
+			<result name="login_error">/login.jsp</result>
+		</action>
+	</package>
+	
+	<!-- 以下是联系人模块 -->
+	<package name="linkMan" extends="json-default" namespace="/">
+		<action name="linkMan_*" class="linkManAction" method="{1}">
+		
+			<result name="page_success">/jsp/linkman/list.jsp</result>
+			<result name="delete_success" type="redirectAction">linkMan_findByPage.action</result>
+			<result name="save_success" type="redirectAction">linkMan_findByPage.action</result>
+			<result name="edit_success">/jsp/linkman/edit.jsp</result>
+			<result name="update_success" type="redirectAction">linkMan_findByPage.action</result>
+			<result name="json_success" type="json">
+				<param name="root">list</param>
+			</result>
+		</action>
+	</package>
+	
+	
+	<!-- 这是客户模块 -->
+	<package name="customer" extends="json-default" namespace="/">
+		<action name="customer_*" class="customerAction" method="{1}">
+			<result name="input_error">/jsp/customer/add.jsp</result>
+			
+			<!-- chain  |  redirectAction  -->
+			<result name="save_success" type="redirectAction">customer_findByPage.action</result>
+			<result name="page_success">/jsp/customer/list.jsp</result>
+			<result name="delete_success" type="redirectAction">customer_findByPage.action</result>
+			<result name="edit_success" >/jsp/customer/edit.jsp</result>
+			<result name="update_success" type="redirectAction">customer_findByPage.action</result>
+			<result name="json_success" type="json">
+				<param name="root">list</param>
+			</result>
+		</action>
+	</package>
+	
+	<!-- 这是字典模块 -->
+	<package name="baseDict" extends="json-default" namespace="/">
+		<action name="baseDict_*" class="baseDictAction" method="{1}">
+			<result name="json_success" type="json">
+				<param name="root">list</param>
+			</result>
+		</action>
+	</package>
+	
+	<!-- 这是客户拜访模块 -->
+	<package name="saleVisit" extends="struts-default" namespace="/">
+		<action name="saleVisit_*" class="saleVisitAction" method="{1}">
+			<result name="save_success" type="redirectAction">saleVisit_findByPage.action</result>
+			<result name="page_success" >/jsp/visit/list.jsp</result>
+		</action>
+	</package>
+</struts>

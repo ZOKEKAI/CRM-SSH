@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE hibernate-mapping PUBLIC 
+    "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+    "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<hibernate-mapping>
+
+	<class name="com.zhou.bean.Customer" table="cst_customer">
+		<id name="cust_id">
+			<generator class="native"></generator>
+		</id>
+		<property name="cust_name"></property>
+		<property name="cust_phone"></property>
+		<property name="cust_address"></property>
+		<property name="cust_image"></property>
+		
+		<!-- <property name="cust_source"></property>
+		<property name="cust_industry"></property>
+		<property name="cust_level"></property> -->
+		
+		<!-- 以上三个列要和字典表产生主外键的关系，要确立一对多的关系。 
+		从客户这边看他们之间的关系：  多对一 
+		
+		
+			many-to-one: 建议多对一的关系
+			name: name永远都是属性的意思，不管是什么类型。 这里面放的值永远都是属性名字
+			
+			class : 可以有两层意思理解
+			
+				从java角度理解：
+					1.  这个属性是什么类型，class就写什么类型。 
+				从数据库理解：
+					1 现在要和哪一张表建立主外键的关系啊， 这个class就写那张表对应的持久化类
+			
+					
+			疑问一： 
+			
+				为什么不写colunmn 呢？ 
+					column : column在这里表示的意思就是列的名字。 如果不写，列的名字就显示属性名	
+					
+			疑问二：
+			
+				既然两张表示存在关系的。 从客户这边看是多对一， 从字典表那边看是一对多。
+				为什么只在客户这边声明了多对一， 而不在字典包那边声明一对多呢？
+				这个关系不是双方都来维护吗？ 
+				
+				这其实要分开来看，由于现在我们只需要在查询客户信息的时候，也把对应的字典记录数据给查询出来，所以只需要在这边维护即可。
+		-->
+		<many-to-one name="cust_source"  fetch="join" class="com.zhou.bean.BaseDict"></many-to-one>
+		<many-to-one name="cust_industry" fetch="join"  class="com.zhou.bean.BaseDict"></many-to-one>
+		<many-to-one name="cust_level" fetch="join"  class="com.zhou.bean.BaseDict"></many-to-one>
+		
+		<!-- 表示这个客户有多少个联系人， 这是一对多的关系，站在客户这边看他们的关系， 客户是属于一的一方 -->
+		
+		<set name="linkMans">
+		
+			<!-- 这个key : 和下面的one-to-many一块来说明的。
+			下面的class已经知道了我们要和具体的表产生关系。 
+			但是我们要和那个表里面的哪一个列产生关系。 这个column就说的是那个列。 
+			 -->
+			<key>
+				<column name="lkm_cust_id"></column>
+			</key>
+			
+			<!-- class :和以前的意思一样，就是要和哪张表对应啊 -->
+			<one-to-many class="com.zhou.bean.LinkMan"/>
+		</set>
+	</class>
+</hibernate-mapping>

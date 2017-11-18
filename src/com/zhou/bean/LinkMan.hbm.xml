@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE hibernate-mapping PUBLIC 
+    "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+    "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<hibernate-mapping>
+
+	<class name="com.zhou.bean.LinkMan" table="cst_linkman">
+		<id name="lkm_id">
+			<generator class="native"></generator>
+		</id>
+
+		<property name="lkm_name"></property>
+		<property name="lkm_gender"></property>
+		<property name="lkm_phone"></property>
+		<property name="lkm_mobile"></property>
+		<property name="lkm_email"></property>
+		<property name="lkm_qq"></property>
+		<property name="lkm_position"></property>
+		<property name="lkm_memo"></property>
+		
+		
+		<!-- 这里要表示客户和联系人的关系， 站在联系人的角度看 ： 它和客户的关系是 多对一的关系
+			name :属性
+			class : 要和哪一张表建立关系
+			
+			假如不写column , 那么列的名字就叫做customer
+		 -->
+		<many-to-one name="customer" column="lkm_cust_id" class="com.zhou.bean.Customer"></many-to-one>
+		
+	</class>
+</hibernate-mapping>
